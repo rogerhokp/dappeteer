@@ -26,8 +26,14 @@ export const sign =
 
     await clickOnButton(page, "Sign");
 
-    await page.waitForSelector(".signature-request-warning__content");
-    await clickOnButton(page, "Sign");
+    try {
+      await page.waitForSelector(".signature-request-warning__content", {
+        timeout: 2000,
+      });
+      await clickOnButton(page, "Sign");
+    } catch (e) {
+      //exception is thrown if the element is not found
+    }
 
     // wait for MM to be back in a stable state
     await page.waitForSelector(".app-header", {

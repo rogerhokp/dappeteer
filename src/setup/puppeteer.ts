@@ -6,9 +6,8 @@ export async function launchPuppeteer(
   userDataDir: string,
   options: DappeteerLaunchOptions
 ): Promise<DappeteerBrowser> {
-  const pBrowser = await (
-    await import("puppeteer")
-  ).default.launch({
+  const useExtra = options.usePuppeteerExtra ?? true;
+  const launchOpt = {
     ...(options.puppeteerOptions ?? {}),
     headless: options.headless,
     userDataDir,
@@ -20,7 +19,12 @@ export async function launchPuppeteer(
       ...(options.puppeteerOptions?.args || []),
       ...(options.headless ? ["--headless=new"] : []),
     ],
-  });
+  };
+
+  const pBrowser = useExtra
+    ? await (await import("puppeteer-extra")).default.launch(launchOpt)
+    : await (await import("puppeteer")).default.launch(launchOpt);
+
   const { DPuppeteerBrowser } = await import("../puppeteer");
   return new DPuppeteerBrowser(pBrowser, userDataDir, options.metaMaskFlask);
 }
