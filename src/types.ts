@@ -20,6 +20,7 @@ export type DappeteerLaunchOptions = {
   metaMaskFlask?: boolean;
   //fallbacks to installed dependency and prefers playwright if both are installed
   automation?: "puppeteer" | "playwright";
+  usePuppeteerExtra?: boolean;
   headless?: boolean; // default true
   puppeteerOptions?: Parameters<typeof puppeteerLaunch>[0];
   playwrightOptions?: PlaywrightLaunchOptions;
