@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.launchPuppeteer = void 0;
 async function launchPuppeteer(metamaskPath, userDataDir, options) {
-    const useExtra = options.usePuppeteerExtra ?? true;
+    const useExtra = options.usePuppeteerExtra ?? false;
     const launchOpt = {
         ...(options.puppeteerOptions ?? {}),
         headless: options.headless,
@@ -39,6 +39,9 @@ async function launchPuppeteer(metamaskPath, userDataDir, options) {
             ...(options.headless ? ["--headless=new"] : []),
         ],
     };
+    if (useExtra) {
+        console.info("goint to using puppeteer-extra");
+    }
     const pBrowser = useExtra
         ? await (await Promise.resolve().then(() => __importStar(require("puppeteer-extra")))).default.launch(launchOpt)
         : await (await Promise.resolve().then(() => __importStar(require("puppeteer")))).default.launch(launchOpt);

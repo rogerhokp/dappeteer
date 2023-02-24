@@ -6,7 +6,7 @@ export async function launchPuppeteer(
   userDataDir: string,
   options: DappeteerLaunchOptions
 ): Promise<DappeteerBrowser> {
-  const useExtra = options.usePuppeteerExtra ?? true;
+  const useExtra = options.usePuppeteerExtra ?? false;
   const launchOpt = {
     ...(options.puppeteerOptions ?? {}),
     headless: options.headless,
@@ -21,6 +21,9 @@ export async function launchPuppeteer(
     ],
   };
 
+  if (useExtra) {
+    console.info("goint to using puppeteer-extra");
+  }
   const pBrowser = useExtra
     ? await (await import("puppeteer-extra")).default.launch(launchOpt)
     : await (await import("puppeteer")).default.launch(launchOpt);
